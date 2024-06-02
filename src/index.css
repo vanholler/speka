@@ -7,6 +7,7 @@ body {
   min-height: 100%;
   width:100vw;
   overflow-x:hidden;
+  background: #282c34;
 }
 
 
@@ -30,6 +31,15 @@ body {
   width: 96vw;
 }
 
+.center-line {
+  background: #abb2bf;
+  width: 10px;
+  position: absolute;
+  height: 97%;
+  left: 39%;
+  border-radius: 2px;
+}
+
 .main-left {
   height: 100%;
   border-radius: 12px;
@@ -48,8 +58,8 @@ body {
 }
 
 .main-rigth_buttons {
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: 5%;
   right: 0;
   display: flex;
   flex-direction: column;
@@ -269,4 +279,17 @@ body::-webkit-scrollbar-track {
 
 .q-item__label {
   color: #d19a66;
+}
+
+
+.q-tree__node--selected .q-tree__node-header-content {
+  color: #d19a66 !important;
+}
+
+.q-tree__node-header-content {
+  color: #abb2bf !important;
+}
+
+.q-tab-panels {
+  background: none !important;
 }

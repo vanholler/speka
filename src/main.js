@@ -12,7 +12,7 @@ const createWindow = () => {
     title: "Speka",
     width: 1100,
     height: 800,
-    resizable: false,
+    resizable: true,
     backgroundColor: '#848787',
     autoHideMenuBar: false,
     

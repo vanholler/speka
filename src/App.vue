@@ -12,7 +12,27 @@ export default {
     highlightjs: hljsVuePlugin.component
   },
   data() {
-    return {
+    return {simple: [
+        {
+          label: 'Документация',
+          children: [
+            {
+              label: 'OpenAPI Specification',
+              icon: 'restaurant_menu'
+            },
+            {
+              label: 'JSON Schema Specification',
+              icon: 'room_service'
+            },
+            {
+              label: 'Author',
+              icon: 'photo'
+            }
+          ]
+        }
+      ],
+      splitterModel: 50,
+      selected: 'Food',
       tab: "generator",
       author: "",
       title: "",
@@ -187,7 +207,7 @@ export default {
                 "application/json": {
                   "schema": {
                     ...JSON.parse(this.requestSchema) // пересмотреть - синтаксис подсветка
-                 }
+                  }
                 }
               }
             }
@@ -252,7 +272,7 @@ export default {
 <template>
   <notifications position="bottom right" />
   <q-card class="no-back">
-    <q-tabs v-model="tab" dense class="text-dark tabs-back" active-color="dark" indicator-color="dark" align="justify"
+    <q-tabs v-model="tab" dense class="text-grey tabs-back" active-color="grey-4" indicator-color="" align="justify"
       narrow-indicator>
       <q-tab name="generator" label="Генератор openAPI" />
       <q-tab name="jsonTo" label="json to Schema" />
@@ -261,9 +281,28 @@ export default {
 
     <q-separator />
 
+
+
     <q-tab-panels v-model="tab" class="no-back" animated>
       <q-tab-panel name="generator">
 
+        <div class="center-line"></div> 
+        <!-- линия по середине  -->
+
+        <div class="main-rigth_buttons">
+        <!-- кноки скачать и скопировать  -->
+          <div class="main-rigth_buttons-btn">
+            <q-btn size="xs" @click="download" title="Скачать" flat round wait-for-ripple dense color="secondary">
+              <q-icon name="download_for_offline" size="26px"></q-icon>
+            </q-btn>
+          </div>
+          <div class="main-rigth_buttons-btn">
+            <q-btn size="xs" @click="doCopy" title="Скопировать" flat round wait-for-ripple dense color="secondary">
+              <q-icon name="content_copy" size="26px"></q-icon>
+            </q-btn>
+          </div>
+
+        </div>
         <div class="main">
           <div class="main-left">
             <div class="" style="">
@@ -309,7 +348,7 @@ export default {
                           </q-btn>
                         </div>
                         <div class="">
-                            <q-toggle v-model="item.required" label="required" />
+                          <q-toggle v-model="item.required" label="required" />
                         </div>
                         <div class=" external-input_servers">
                           <div class="external-input_servers-inp">
@@ -442,25 +481,8 @@ export default {
             </div>
           </div>
 
-
           <div class="main-rigth theme-atom-one-dark ">
             <highlightjs language="json" :code="baseSwagger" />
-
-            <div class="main-rigth_buttons">
-
-              <div class="main-rigth_buttons-btn">
-                <q-btn size="xs" @click="download" title="Скачать" flat round wait-for-ripple dense color="secondary">
-                  <q-icon name="download_for_offline" size="26px"></q-icon>
-                </q-btn>
-              </div>
-              <div class="main-rigth_buttons-btn">
-                <q-btn size="xs" @click="doCopy" title="Скопировать" flat round wait-for-ripple dense color="secondary">
-                  <q-icon name="content_copy" size="26px"></q-icon>
-                </q-btn>
-              </div>
-
-            </div>
-
           </div>
         </div>
       </q-tab-panel>
@@ -472,21 +494,59 @@ export default {
 
       <q-tab-panel name="wiki">
         <div class="main-left">
-          <div class="q-pa-md bg-grey-9 text-white">
-            <q-list dark bordered separator style="max-width: 318px">
-              <q-item clickable v-ripple>
-                <q-item-section>https://editor.swagger.io/</q-item-section>
-              </q-item>
+          <div>
+    <q-splitter
+      v-model="splitterModel"
+      style="height: 400px"
+    >
 
-              <q-item clickable v-ripple>
-                <q-item-section>Single line item</q-item-section>
-              </q-item>
+      <template v-slot:before>
+        <div class="q-pa-md">
+          <q-tree
+            :nodes="simple"
+            node-key="label"
+            selected-color=""
+            v-model:selected="selected"
+            default-expand-all
+          />
+        </div>
+      </template>
 
-              <q-item clickable v-ripple>
-                <q-item-section>Single line item</q-item-section>
-              </q-item>
-            </q-list>
-          </div>
+      <template v-slot:after>
+        <q-tab-panels
+          v-model="selected"
+          animated
+          transition-prev="jump-up"
+          transition-next="jump-up"
+        >
+          <q-tab-panel name="Документация">
+            <div class="text-h4 q-mb-md">Welcome</div>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+          </q-tab-panel>
+
+          <q-tab-panel name="OpenAPI Specification">
+            <div class="text-h4 q-mb-md">OpenAPI Specification</div>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+          </q-tab-panel>
+
+          <q-tab-panel name="JSON Schema Specification">
+            <div class="text-h4 q-mb-md">JSON Schema Specification</div>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+          </q-tab-panel>
+
+          <q-tab-panel name="Author">
+            <div class="text-h4 q-mb-md">Author</div>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+          </q-tab-panel>
+        </q-tab-panels>
+      </template>
+    </q-splitter>
+  </div>
         </div>
       </q-tab-panel>
     </q-tab-panels>
