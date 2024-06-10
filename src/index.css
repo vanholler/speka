@@ -23,6 +23,11 @@ body {
   z-index: 70000;
 }
 
+.schema-block .q-tree__node-header-content {
+display: none !important;
+}
+
+
 .main {
   margin-top: 35px;
   display: flex;

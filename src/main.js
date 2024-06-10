@@ -15,7 +15,7 @@ const createWindow = () => {
     resizable: true,
     backgroundColor: '#848787',
     autoHideMenuBar: false,
-    
+    icon: 'loggo.ico',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
